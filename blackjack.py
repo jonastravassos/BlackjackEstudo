@@ -5,11 +5,11 @@ class Carta:
     def __init__(self, naipe, valor):
         self.naipe = naipe
         self.valor = valor
-        
+
     def __repr__(self):
         return f"Naipe: {self.naipe} | Valor: {self.valor}"
- 
-        
+
+
 baralho = [
     Carta("Copas", "A"), Carta("Copas", "2"),
     Carta("Copas", "3"), Carta("Copas", "4"),
@@ -37,116 +37,157 @@ baralho = [
     Carta("Paus", "8"), Carta("Paus", "9"),
     Carta("Paus", "10"), Carta("Paus", "J"),
     Carta("Paus", "Q"), Carta("Paus", "K"),
-]       
+]
 
-                
+
 class Dealer:
-        def __init__(self):
-            self.cartas = list()
-            self.ases = 0
-            self.soma = 0
-            
-        def pedir(self):
-            esc = choice(baralho)
-            self.cartas.append(esc)
-            baralho.remove(esc)
-            
-            if esc.valor.isnumeric():
-                self.soma += int(esc.valor)
-            
-            elif esc.valor == "A":
-                self.ases += 1
-                self.soma += 11
-                
-            else: self.soma += 10
-            
-        def contar_ases(self):
-            for i in range(self.ases):
-                if self.soma > 21: 
-                    self.soma -= 10
-                    self.ases -= 1
-                    
-                    
+    def __init__(self):
+        self.cartas = list()
+        self.ases = 0
+        self.soma = 0
+
+    def pedir(self):
+        esc = choice(baralho)
+        self.cartas.append(esc)
+        baralho.remove(esc)
+
+        if esc.valor.isnumeric():
+            self.soma += int(esc.valor)
+
+        elif esc.valor == "A":
+            self.ases += 1
+            self.soma += 11
+
+        else:
+            self.soma += 10
+
+    def contar_ases(self):
+        for i in range(self.ases):
+            if self.soma > 21:
+                self.soma -= 10
+                self.ases -= 1
+
+    def mostrar(self):
+        print("Cartas do Dealer:\n")
+        for carta in self.cartas:
+            print(carta)
+
+        print("Total:", self.soma)
+
+    def ver_carta(self):
+        print("Cartas do Dealer:\n")
+        print("Naipe: ??? | Valor: ???")
+        print(self.cartas[1])
+
+        if self.cartas[1].valor.isnumeric():
+            print("Total:", self.cartas[1])
+
+        elif self.cartas[1].valor != "A":
+            print("Total: 10")
+
+        else:
+            print("1 / 11")
+
+        print("\n")
+
+    def resetar(self):
+        self.cartas.clear()
+        self.ases = 0
+        self.soma = 0
+
+
 class Jogador(Dealer):
-    pass
-                    
-                   
-def mostrar_cartas(objeto):
-    if type(objeto) == Dealer:
-        print("\nCartas do Dealer:\n")
-        for carta in dealer.cartas: 
-            print(carta)
-        
-        print("Total:", dealer.soma)
-        
-    else: 
-        print("\n\033[36m")
+    def __init__(self):
+        super().__init__()
+        self.vencedor = str()
+        self.decisao = str()
+
+    def mostrar(self):
+        print("\033[36m")
         print("Cartas do Jogador:\n")
-        
-        for carta in jogador.cartas: 
+
+        for carta in jogador.cartas:
             print(carta)
-        
+
         print(f"Total: {jogador.soma}")
         print("\033[m")
-            
- 
-vitoria = str()             
+
+    def resetar(self):
+        super().resetar()
+        self.vencedor = str()
+        self.decisao = str()
+
+
+def jogar(baralho: list, dealer: Dealer, jogador: Jogador):
+    while True:
+        if jogador.soma > 21:
+            jogador.vencedor = "Dealer"
+            break
+
+        if jogador.soma == 21:
+            jogador.vencedor = "Jogador"
+            break
+
+        if dealer.soma == 21:
+            jogador.vencedor = "Dealer"
+            break
+
+        print("[0] - Parar")
+        print("[1] - Continuar")
+        jogador.decisao = input("O que quer fazer? ")
+
+        if jogador.decisao == "0":
+            break
+        else:
+            jogador.pedir()
+            jogador.contar_ases()
+            jogador.mostrar()
+
+    while dealer.soma < 17:
+        if jogador.vencedor:
+            break
+        dealer.pedir()
+        dealer.contar_ases()
+
+    if jogador.soma == 21 and dealer.soma == 21:
+        jogador.vencedor = "Empate"
+
+    if not jogador.vencedor:
+        if dealer.soma > 21:
+            jogador.vencedor = "Jogador"
+
+        elif dealer.soma > jogador.soma:
+            jogador.vencedor = "Dealer"
+
+        elif dealer.soma < jogador.soma:
+            jogador.vencedor = "Jogador"
+
+        else:
+            jogador.vencedor = "Empate"
+
+    dealer.mostrar()
+    print("\nVencedor:", jogador.vencedor)
+
+    baralho += dealer.cartas
+    baralho += jogador.cartas
+    jogador.resetar()
+    dealer.resetar()
+
+
+def iniciar(dealer: Dealer, jogador: Jogador):
+    jogador.pedir()
+    jogador.pedir()
+    jogador.contar_ases()
+    dealer.pedir()
+    dealer.pedir()
+    dealer.contar_ases()
+    jogador.mostrar()
+    dealer.ver_carta()
+
+
 dealer = Dealer()
 jogador = Jogador()
-decisao = str()
 
-jogador.pedir()
-jogador.pedir()
-jogador.contar_ases()
-dealer.pedir()
-dealer.pedir()
-dealer.contar_ases()
-
-mostrar_cartas(jogador)
-mostrar_cartas(dealer)
-
-while True:
-    if jogador.soma > 21:
-        vitoria = "Dealer"
-        break
-        
-    if jogador.soma == 21:
-        vitoria = "Jogador"
-        break
-        
-    if dealer.soma == 21:
-        vitoria = "Dealer"
-        break
-        
-    print("\n[0] - Parar")
-    print("[1] - Continuar")
-    decisao = input("O que quer fazer? ")
-    
-    if decisao == "0": break
-    else: 
-        jogador.pedir()
-        jogador.contar_ases()
-        mostrar_cartas(jogador)
-        
-while dealer.soma < 17:
-    if vitoria: break
-    dealer.pedir()
-    dealer.contar_ases()        
-    
-if jogador.soma == 21 and dealer.soma == 21:
-    vitoria = "Empate"
-    
-if not vitoria:
-    if dealer.soma > 21:
-        vitoria = "Jogador"
-                        
-    elif dealer.soma > jogador.soma: 
-        vitoria= "Dealer"
-            
-    elif dealer.soma < jogador.soma:
-        vitoria = "Jogador"
-    
-    else: vitoria = "Empate"
-    
-mostrar_cartas(dealer)
-print("\nVitória:", vitoria)
+for i in range(3):
+    iniciar(dealer, jogador)
+    jogar(baralho, dealer, jogador)
