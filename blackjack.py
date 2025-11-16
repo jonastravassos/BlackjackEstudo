@@ -5,23 +5,22 @@ class Carta:
     # Esta classe representa uma carta de baralho.
     def __init__(self, naipe, valor):
         """
-        naipe: representa o naipe da carta. O naipe é irrelevante para o blackjack, mas pode ser útil caso o projeto
+        naipe: representa o naipe da carta. O naipe é irrelevante para o blackjacks, mas pode ser útil caso o projeto
         seja expandido e o naipe tenha significado em outro jogo de cartas.
 
         valor: representa o valor da carta, sendo um número natural de 2 a 10 ou as letras do baralho (A, J, Q, K).
         """
         self.naipe = naipe
         self.valor = valor
+        if self.valor.isnumeric(): self.valor_num = int(self.valor)
+        elif self.valor == 'A': self.valor_num = 11
+        else: self.valor_num = 10
 
     def __repr__(self):
         return f"Naipe: {self.naipe} | Valor: {self.valor}"
 
-    def valor_num(self):
-        if self.valor.isnumeric(): return int(self.valor)
-        elif self.valor == 'A': return self.valor
-        else: return 10
 
-
+cartas_iniciais = [0]
 soma_vitorias = []
 soma_derrotas = []
 soma_empates = []
@@ -73,29 +72,23 @@ class Dealer:
         self.cartas = list()
         self.ases = 0
         self.soma = 0
-        self.bust = 0 # Quando ultrapassa 21.
-        self.blackjack = 0 # Vitória por blackjack.
+        self.busts = 0 # Quando ultrapassa 21.
+        self.blackjacks = 0 # Vitória por blackjacks.
 
     def pedir(self):
         """
         Representa um pedido de carta. Quando o portador pede uma carta, a carta que vem é escolhida aleatoriamente
-        atarvés da função choice(), essa carta é removida do baralho e depois é contabilizada na soma. Cartas númericas
-        tem seu valor nominal, cartas não numéricas valem 10, exceto ás que a princípio vale 11.
+        através da função randrange(), essa carta é removida do baralho e depois é contabilizada na soma. Cartas
+        númericas tem seu valor nominal, cartas não numéricas valem 10, exceto ás que a princípio vale 11.
         """
         esc = randrange(len(baralho))
         baralho[esc], baralho[-1] = baralho[-1], baralho[esc]
         carta = baralho.pop()
+
         self.cartas.append(carta)
+        self.soma += carta.valor_num
 
-        if carta.valor.isnumeric():
-            self.soma += int(carta.valor)
-
-        elif carta.valor == 'A':
-            self.ases += 1
-            self.soma += 11
-
-        else:
-            self.soma += 10
+        if carta.valor_num == 11: self.ases += 1
 
     def contar_ases(self):
         """
@@ -134,18 +127,18 @@ class Dealer:
         print("\n")
 
     def resetar(self):
-        # Reseta os atributos do portador, útil para jogar o jogo novamente dentro da mesma execução.
+        # Reseta os atributos de rodada, útil para jogar o jogo novamente dentro da mesma execução.
         self.cartas.clear()
         self.ases = 0
         self.soma = 0
 
 
 class Jogador(Dealer):
-    # Esta classe representa o jogador. Ela poderá ser expandida para pôr mais funcionalidades do blackjack.
+    # Esta classe representa o jogador.
     def __init__(self):
         super().__init__()
         self.vencedor = str()
-        self.decisao = str()
+        self.decisao = int()
         self.vitorias = 0
         self.derrotas = 0
         self.empates = 0
@@ -163,7 +156,7 @@ class Jogador(Dealer):
     def resetar(self):
         super().resetar()
         self.vencedor = str()
-        self.decisao = str()
+        self.decisao = int()
 
 
 def iniciar(dealer: Dealer, jogador: Jogador):
@@ -174,42 +167,53 @@ def iniciar(dealer: Dealer, jogador: Jogador):
 
     jogador.contar_ases()
     dealer.contar_ases()
-    jogador.mostrar()
-    dealer.ver_carta()
+    # jogador.mostrar()
+    # dealer.ver_carta()
+    cartas_iniciais[0] = jogador.soma
 
 
-def jogar(baralho: list, dealer: Dealer, jogador: Jogador):
+def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
     # Função que contém toda a lógica do jogo e determina o vencedor de uma rodada.
     while True:
         if jogador.soma > 21:
             jogador.vencedor = "Dealer"
             jogador.derrotas += 1
-            jogador.bust += 1
+            jogador.busts += 1
             break
 
         if jogador.soma == 21:
             jogador.vencedor = "Jogador"
             jogador.vitorias += 1
-            jogador.blackjack += 1
+            jogador.blackjacks += 1
             break
 
         if dealer.soma == 21:
             jogador.vencedor = "Dealer"
             jogador.derrotas += 1
-            dealer.blackjack += 1
+            dealer.blackjacks += 1
             break
 
-        '''print("[0] - Parar")
-        print("[1] - Pedir")
-        jogador.decisao = input("O que quer fazer? ")'''
-        jogador.decisao = "0"
+        # O jogador para quando tiver três cartas.
+        if parou == 3:
+            jogador.decisao = 1
 
-        if jogador.decisao == "0":
+        # O jogador para quando tem duas cartas.
+        elif parou == 2:
+            jogador.decisao = 0
+
+        # A decisão do jogador será via input.
+        else:
+            print("[0] - Parar")
+            print("[1] - Pedir")
+            jogador.decisao = int(input("O que quer fazer? "))
+
+        if jogador.decisao == 0:
             break
         else:
+            parou -= 1
             jogador.pedir()
             jogador.contar_ases()
-            jogador.mostrar()
+            # jogador.mostrar()
 
     while dealer.soma < 17:
         if jogador.vencedor: break
@@ -224,7 +228,7 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador):
         if dealer.soma > 21:
             jogador.vencedor = "Jogador"
             jogador.vitorias += 1
-            dealer.bust += 1
+            dealer.busts += 1
 
         elif dealer.soma > jogador.soma:
             jogador.vencedor = "Dealer"
@@ -238,19 +242,20 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador):
             jogador.vencedor = "Empate"
             jogador.empates += 1
 
-    dealer.mostrar()
-    print("\nVencedor:", jogador.vencedor)
+    # dealer.mostrar()
+    # print("\nVencedor:", jogador.vencedor)
+    carta_visivel = dealer.cartas[1].valor_num
 
     if jogador.vencedor == "Jogador":
-        soma_vitorias.append(jogador.soma)
-        carta2_vitorias.append(dealer.cartas[1].valor_num())
+        soma_vitorias.append(cartas_iniciais[0])
+        carta2_vitorias.append(carta_visivel)
 
     elif jogador.vencedor == "Dealer":
-        soma_derrotas.append(jogador.soma)
-        carta2_derrotas.append(dealer.cartas[1].valor_num())
+        soma_derrotas.append(cartas_iniciais[0])
+        carta2_derrotas.append(carta_visivel)
     else:
-        soma_empates.append(jogador.soma)
-        carta2_empates.append(dealer.cartas[1].valor_num())
+        soma_empates.append(cartas_iniciais[0])
+        carta2_empates.append(carta_visivel)
 
     baralho += dealer.cartas
     baralho += jogador.cartas
@@ -263,12 +268,12 @@ jogador = Jogador()
 
 for i in range(10):
     iniciar(dealer, jogador)
-    jogar(baralho, dealer, jogador)
+    jogar(baralho, dealer, jogador, 3)
 
 print("="*60)
 print(f"Vitórias: {jogador.vitorias}\nDerrotas: {jogador.derrotas}\nEmpates: {jogador.empates}")
-print(f"Busts do jogador: {jogador.bust}\nBlackjacks do jogador: {jogador.blackjack}")
-print(f"Busts do dealer: {dealer.bust}\nBlackjacks do dealer: {dealer.blackjack}")
-print(f"Soma das vitórias: {soma_vitorias}\nSoma das derrotas: {soma_derrotas}\nSoma dos empates:{soma_empates}")
+print(f"Busts do jogador: {jogador.busts}\nBlackjacks do jogador: {jogador.blackjacks}")
+print(f"Busts do dealer: {dealer.busts}\nBlackjacks do dealer: {dealer.blackjacks}")
+print(f"Soma parcial das vitórias: {soma_vitorias}\nDas derrotas: {soma_derrotas}\nDos empates:{soma_empates}")
 print(f"Carta do dealer em:\nVitórias: {carta2_vitorias}\nDerrotas: {carta2_derrotas}\nEmpates: {carta2_empates}")
 print("="*60)
