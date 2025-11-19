@@ -1,4 +1,6 @@
 from random import randrange
+# Falta verficar se o blackjack natural está sendo implemenetado corretamente.
+# Otimizar com dicionários.
 
 
 class Carta:
@@ -20,13 +22,11 @@ class Carta:
         return f"Naipe: {self.naipe} | Valor: {self.valor}"
 
 
-cartas_iniciais = [0]
-soma_vitorias = []
-soma_derrotas = []
-soma_empates = []
-carta2_vitorias = []
-carta2_derrotas = []
-carta2_empates = []
+stats = {
+    2: {}, # Parar com duas cartas.
+    3: {}, # Parar com três cartas.
+    4: {}  # Parar com quatro cartas.
+}
 
 baralho = [
     Carta("Copas", "A"), Carta("Copas", "2"),
@@ -142,6 +142,7 @@ class Jogador(Dealer):
         self.vitorias = 0
         self.derrotas = 0
         self.empates = 0
+        self.cartas_iniciais = 0
 
     def mostrar(self):
         print("\033[36m")
@@ -158,6 +159,9 @@ class Jogador(Dealer):
         self.vencedor = str()
         self.decisao = int()
 
+    def soft_hard(self):
+        return f"{self.soma}{'S' if self.ases > 0 else 'H'}"
+
 
 def iniciar(dealer: Dealer, jogador: Jogador):
     # Função que inicia cada rodada. É chamada antes da função jogar().
@@ -169,10 +173,12 @@ def iniciar(dealer: Dealer, jogador: Jogador):
     dealer.contar_ases()
     # jogador.mostrar()
     # dealer.ver_carta()
-    cartas_iniciais[0] = jogador.soma
+    jogador.cartas_iniciais = jogador.soma
 
 
 def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
+    chave = jogador.soft_hard()
+    n = len(jogador.cartas)
     # Função que contém toda a lógica do jogo e determina o vencedor de uma rodada.
     while True:
         if jogador.soma > 21:
@@ -181,16 +187,21 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
             jogador.busts += 1
             break
 
+        elif chave not in stats[len(jogador.cartas)]:
+            chave = jogador.soft_hard()
+            n = len(jogador.cartas)
+            stats[len(jogador.cartas)][chave] = {"wins": 0, "losses": 0, "ties": 0}
+
         if jogador.soma == 21:
+            if len(jogador.cartas) == 2: jogador.blackjacks += 1
             jogador.vencedor = "Jogador"
             jogador.vitorias += 1
-            jogador.blackjacks += 1
             break
 
         if dealer.soma == 21:
+            if len(dealer.cartas) == 2: dealer.blackjacks += 1
             jogador.vencedor = "Dealer"
             jogador.derrotas += 1
-            dealer.blackjacks += 1
             break
 
         # O jogador para quando tiver três cartas.
@@ -247,15 +258,12 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
     carta_visivel = dealer.cartas[1].valor_num
 
     if jogador.vencedor == "Jogador":
-        soma_vitorias.append(cartas_iniciais[0])
-        carta2_vitorias.append(carta_visivel)
+        stats[n][chave]["wins"] += 1
 
     elif jogador.vencedor == "Dealer":
-        soma_derrotas.append(cartas_iniciais[0])
-        carta2_derrotas.append(carta_visivel)
+        stats[n][chave]["losses"] += 1
     else:
-        soma_empates.append(cartas_iniciais[0])
-        carta2_empates.append(carta_visivel)
+        stats[n][chave]["ties"] += 1
 
     baralho += dealer.cartas
     baralho += jogador.cartas
@@ -270,10 +278,9 @@ for i in range(10):
     iniciar(dealer, jogador)
     jogar(baralho, dealer, jogador, 3)
 
-print("="*60)
+print("="*120)
 print(f"Vitórias: {jogador.vitorias}\nDerrotas: {jogador.derrotas}\nEmpates: {jogador.empates}")
 print(f"Busts do jogador: {jogador.busts}\nBlackjacks do jogador: {jogador.blackjacks}")
 print(f"Busts do dealer: {dealer.busts}\nBlackjacks do dealer: {dealer.blackjacks}")
-print(f"Soma parcial das vitórias: {soma_vitorias}\nDas derrotas: {soma_derrotas}\nDos empates:{soma_empates}")
-print(f"Carta do dealer em:\nVitórias: {carta2_vitorias}\nDerrotas: {carta2_derrotas}\nEmpates: {carta2_empates}")
-print("="*60)
+for v in stats.values(): print(v)
+print("="*120)
