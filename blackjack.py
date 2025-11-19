@@ -5,7 +5,7 @@ from random import randrange
 
 class Carta:
     # Esta classe representa uma carta de baralho.
-    def __init__(self, naipe, valor):
+    def __init__(self, naipe: str, valor: str):
         """
         naipe: representa o naipe da carta. O naipe é irrelevante para o blackjacks, mas pode ser útil caso o projeto
         seja expandido e o naipe tenha significado em outro jogo de cartas.
@@ -25,7 +25,13 @@ class Carta:
 stats = {
     2: {}, # Parar com duas cartas.
     3: {}, # Parar com três cartas.
-    4: {}  # Parar com quatro cartas.
+}
+
+# Registra a carta do dealer nas vitórias, derrotas e empates.
+resultado = {
+    "Vitória": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "Derrota": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "Empate": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0}
 }
 
 baralho = [
@@ -124,7 +130,7 @@ class Dealer:
         else:
             print("1 / 11")
 
-        print("\n")
+        print("\n", end='')
 
     def resetar(self):
         # Reseta os atributos de rodada, útil para jogar o jogo novamente dentro da mesma execução.
@@ -163,6 +169,18 @@ class Jogador(Dealer):
         return f"{self.soma}{'S' if self.ases > 0 else 'H'}"
 
 
+def ver_dados(stats: dict, resultado: dict):
+    print('\n', end='')
+    for k, v in stats.items():
+        print(k)
+        for chave, valor in v.items(): print(f"{chave}: {valor}")
+
+    print('\n', end='')
+
+    for k, v in resultado.items():
+        print(f"{k}: {v}")
+
+
 def iniciar(dealer: Dealer, jogador: Jogador):
     # Função que inicia cada rodada. É chamada antes da função jogar().
     for i in range(2):
@@ -171,15 +189,15 @@ def iniciar(dealer: Dealer, jogador: Jogador):
 
     jogador.contar_ases()
     dealer.contar_ases()
-    # jogador.mostrar()
-    # dealer.ver_carta()
+    jogador.mostrar()
+    dealer.ver_carta()
     jogador.cartas_iniciais = jogador.soma
 
 
 def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
-    chave = jogador.soft_hard()
-    n = len(jogador.cartas)
-    # Função que contém toda a lógica do jogo e determina o vencedor de uma rodada.
+    chave = str()
+    n = int()
+
     while True:
         if jogador.soma > 21:
             jogador.vencedor = "Dealer"
@@ -187,10 +205,11 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
             jogador.busts += 1
             break
 
-        elif chave not in stats[len(jogador.cartas)]:
-            chave = jogador.soft_hard()
-            n = len(jogador.cartas)
-            stats[len(jogador.cartas)][chave] = {"wins": 0, "losses": 0, "ties": 0}
+        chave = jogador.soft_hard()
+        n = len(jogador.cartas)
+
+        if chave not in stats[n]:
+            stats[n][chave] = {"wins": 0, "losses": 0, "ties": 0}
 
         if jogador.soma == 21:
             if len(jogador.cartas) == 2: jogador.blackjacks += 1
@@ -224,7 +243,7 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
             parou -= 1
             jogador.pedir()
             jogador.contar_ases()
-            # jogador.mostrar()
+            jogador.mostrar()
 
     while dealer.soma < 17:
         if jogador.vencedor: break
@@ -253,17 +272,20 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
             jogador.vencedor = "Empate"
             jogador.empates += 1
 
-    # dealer.mostrar()
-    # print("\nVencedor:", jogador.vencedor)
-    carta_visivel = dealer.cartas[1].valor_num
+    dealer.mostrar()
+    print("\nVencedor:", jogador.vencedor)
 
     if jogador.vencedor == "Jogador":
         stats[n][chave]["wins"] += 1
+        resultado["Vitória"][dealer.cartas[1].valor] += 1
 
     elif jogador.vencedor == "Dealer":
         stats[n][chave]["losses"] += 1
+        resultado["Derrota"][dealer.cartas[1].valor] += 1
+
     else:
         stats[n][chave]["ties"] += 1
+        resultado["Empate"][dealer.cartas[1].valor] += 1
 
     baralho += dealer.cartas
     baralho += jogador.cartas
@@ -282,5 +304,5 @@ print("="*120)
 print(f"Vitórias: {jogador.vitorias}\nDerrotas: {jogador.derrotas}\nEmpates: {jogador.empates}")
 print(f"Busts do jogador: {jogador.busts}\nBlackjacks do jogador: {jogador.blackjacks}")
 print(f"Busts do dealer: {dealer.busts}\nBlackjacks do dealer: {dealer.blackjacks}")
-for v in stats.values(): print(v)
+ver_dados(stats, resultado)
 print("="*120)
