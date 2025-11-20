@@ -1,4 +1,5 @@
 from random import randrange
+from time import perf_counter
 # Falta verficar se o blackjack natural está sendo implemenetado corretamente.
 # Otimizar com dicionários.
 
@@ -183,15 +184,15 @@ def ver_dados(stats: dict, resultado: dict):
 
 def iniciar(dealer: Dealer, jogador: Jogador):
     # Função que inicia cada rodada. É chamada antes da função jogar().
-    for i in range(2):
+     for i in range(2):
         jogador.pedir()
         dealer.pedir()
 
-    jogador.contar_ases()
-    dealer.contar_ases()
-    jogador.mostrar()
-    dealer.ver_carta()
-    jogador.cartas_iniciais = jogador.soma
+     jogador.contar_ases()
+     dealer.contar_ases()
+     # jogador.mostrar()
+     # dealer.ver_carta()
+     jogador.cartas_iniciais = jogador.soma
 
 
 def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
@@ -213,6 +214,12 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
 
         if jogador.soma == 21:
             if len(jogador.cartas) == 2: jogador.blackjacks += 1
+            if dealer.soma == 21:
+                if len(dealer.cartas) == 2: dealer.blackjacks += 1
+                jogador.vencedor = "Empate"
+                jogador.empates += 1
+                break
+
             jogador.vencedor = "Jogador"
             jogador.vitorias += 1
             break
@@ -243,16 +250,12 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
             parou -= 1
             jogador.pedir()
             jogador.contar_ases()
-            jogador.mostrar()
+            # jogador.mostrar()
 
     while dealer.soma < 17:
         if jogador.vencedor: break
         dealer.pedir()
         dealer.contar_ases()
-
-    if jogador.soma == 21 and dealer.soma == 21:
-        jogador.vencedor = "Empate"
-        jogador.empates += 1
 
     if not jogador.vencedor:
         if dealer.soma > 21:
@@ -272,8 +275,8 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
             jogador.vencedor = "Empate"
             jogador.empates += 1
 
-    dealer.mostrar()
-    print("\nVencedor:", jogador.vencedor)
+    # dealer.mostrar()
+    # print("\nVencedor:", jogador.vencedor)
 
     if jogador.vencedor == "Jogador":
         stats[n][chave]["wins"] += 1
@@ -295,14 +298,18 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
 
 dealer = Dealer()
 jogador = Jogador()
+t0 = perf_counter()
 
-for i in range(10):
+for i in range(100):
     iniciar(dealer, jogador)
-    jogar(baralho, dealer, jogador, 3)
+    jogar(baralho, dealer, jogador, 2)
+
+t = perf_counter()
 
 print("="*120)
 print(f"Vitórias: {jogador.vitorias}\nDerrotas: {jogador.derrotas}\nEmpates: {jogador.empates}")
 print(f"Busts do jogador: {jogador.busts}\nBlackjacks do jogador: {jogador.blackjacks}")
 print(f"Busts do dealer: {dealer.busts}\nBlackjacks do dealer: {dealer.blackjacks}")
 ver_dados(stats, resultado)
+print("Tempo gasto:", t-t0)
 print("="*120)
