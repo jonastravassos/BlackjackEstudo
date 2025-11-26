@@ -379,7 +379,7 @@ def monte_carlo(n, parou):
 dealer = Dealer()
 jogador = Jogador()
 t0 = perf_counter()
-monte_carlo(100, 2)
+monte_carlo(1000000, 2)
 t = perf_counter()
 
 print("="*120)
