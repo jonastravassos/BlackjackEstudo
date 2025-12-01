@@ -307,10 +307,6 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou=1):
             jogador.derrotas += 1
             break
 
-        # O jogador para quando tiver três cartas.
-        if parou == 3:
-            jogador.decisao = 1
-
         # O jogador para quando tem duas cartas.
         elif parou == 2:
             jogador.decisao = 0

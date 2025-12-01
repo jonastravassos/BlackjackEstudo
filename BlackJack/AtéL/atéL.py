@@ -24,6 +24,8 @@ class Carta:
 
 # Registra a carta do dealer nas vitórias, derrotas e empates.
 vitorias = {
+    "4H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "5H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "6H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "7H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "8H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
@@ -39,6 +41,7 @@ vitorias = {
     "18H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "19H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "20H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "21H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "12S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "13S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "14S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
@@ -52,6 +55,8 @@ vitorias = {
 }
 
 derrotas = {
+    "4H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "5H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "6H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "7H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "8H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
@@ -67,6 +72,7 @@ derrotas = {
     "18H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "19H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "20H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "21H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "12S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "13S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "14S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
@@ -80,6 +86,8 @@ derrotas = {
 }
 
 empates = {
+    "4H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "5H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "6H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "7H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "8H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
@@ -95,6 +103,7 @@ empates = {
     "18H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "19H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "20H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "21H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "12S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "13S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "14S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
@@ -183,9 +192,7 @@ class Dealer:
     def mostrar(self):
         # Mostra as cartas do dealer quando o jogador para.
         print("Cartas do Dealer:\n")
-        for carta in self.cartas:
-            print(carta)
-
+        for carta in self.cartas: print(carta)
         print("Total:", self.soma)
 
     def ver_carta(self):
@@ -221,7 +228,7 @@ class Jogador(Dealer):
         self.vitorias = 0
         self.derrotas = 0
         self.empates = 0
-        self.cartas_iniciais = 0
+        self.saldo = 0
 
     def mostrar(self):
         print("\033[36m")
@@ -264,11 +271,11 @@ def iniciar(dealer: Dealer, jogador: Jogador):
 
      jogador.contar_ases()
      dealer.contar_ases()
-     jogador.mostrar()
-     dealer.ver_carta()
+     # jogador.mostrar()
+     # dealer.ver_carta()
 
 
-def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou: int):
+def jogar(baralho: list, dealer: Dealer, jogador: Jogador, limite: int):
     pre_total = jogador.soft_hard()
 
     while True:
@@ -276,34 +283,44 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou: int):
             jogador.vencedor = "Dealer"
             jogador.derrotas += 1
             jogador.busts += 1
+            jogador.saldo -= 1
             break
 
         if jogador.soma == 21:
-            if len(jogador.cartas) == 2: jogador.blackjacks += 1
-            if dealer.soma == 21:
-                if len(dealer.cartas) == 2: dealer.blackjacks += 1
-                jogador.vencedor = "Empate"
-                jogador.empates += 1
+            if len(jogador.cartas) == 2:
+                jogador.blackjacks += 1
+
+                if dealer.soma == 21:
+                    if len(dealer.cartas) == 2: dealer.blackjacks += 1
+                    jogador.vencedor = "Empate"
+                    jogador.empates += 1
+                    break
+
+                jogador.saldo += 0.5
+                jogador.vencedor = "Jogador"
+                jogador.vitorias += 1
                 break
 
             jogador.vencedor = "Jogador"
             jogador.vitorias += 1
+            jogador.saldo += 1
             break
 
         if dealer.soma == 21:
             if len(dealer.cartas) == 2: dealer.blackjacks += 1
             jogador.vencedor = "Dealer"
             jogador.derrotas += 1
+            jogador.saldo -= 1
             break
 
-        if jogador.soma >= parou: break
+        if jogador.soma >= limite: break
 
         # Enquanto o jogador não atingir uma pontuação, ele não para de pedir, semelhante ao dealer.
-        while jogador.soma < parou:
+        while jogador.soma < limite:
             pre_total = jogador.soft_hard()
             jogador.pedir()
-            jogador.mostrar()
-            jogador.contar_ases()
+            # jogador.mostrar()
+            # jogador.contar_ases()
 
     while dealer.soma < 17:
         if jogador.vencedor: break
@@ -314,22 +331,26 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou: int):
         if dealer.soma > 21:
             jogador.vencedor = "Jogador"
             jogador.vitorias += 1
+            jogador.saldo += 1
             dealer.busts += 1
 
         elif dealer.soma > jogador.soma:
             jogador.vencedor = "Dealer"
+            jogador.saldo -= 1
             jogador.derrotas += 1
 
         elif dealer.soma < jogador.soma:
             jogador.vencedor = "Jogador"
+            jogador.saldo += 1
             jogador.vitorias += 1
 
         else:
             jogador.vencedor = "Empate"
             jogador.empates += 1
 
-    dealer.mostrar()
-    print("\nVencedor:", jogador.vencedor)
+    # dealer.mostrar()
+    # print("\nVencedor:", jogador.vencedor)
+    # print(f"Seu saldo R$ {jogador.saldo:.2f}")
 
     if jogador.vencedor == "Jogador":
         vitorias[pre_total][dealer.cartas[1].valor] += 1
@@ -346,22 +367,23 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, parou: int):
     dealer.resetar()
 
 
-def monte_carlo(n, parou):
+def monte_carlo(n, limite):
     for i in range(n):
         iniciar(dealer, jogador)
-        jogar(baralho, dealer, jogador, parou)
+        jogar(baralho, dealer, jogador, limite)
 
 
 dealer = Dealer()
 jogador = Jogador()
 t0 = perf_counter()
-monte_carlo(1000000, 17)
+monte_carlo(1000000, 16)
 t = perf_counter()
 
 print("="*120)
 print(f"Vitórias: {jogador.vitorias}\nDerrotas: {jogador.derrotas}\nEmpates: {jogador.empates}")
 print(f"Busts do jogador: {jogador.busts}\nBlackjacks do jogador: {jogador.blackjacks}")
 print(f"Busts do dealer: {dealer.busts}\nBlackjacks do dealer: {dealer.blackjacks}")
+print(f"Saldo: R$ {jogador.saldo:.2f}")
 ver_dados()
 print("Tempo gasto:", t-t0)
 print("="*120)
