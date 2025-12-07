@@ -41,7 +41,6 @@ vitorias = {
     "18H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "19H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "20H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
-    "21H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "12S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "13S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "14S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
@@ -72,7 +71,6 @@ derrotas = {
     "18H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "19H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "20H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
-    "21H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "12S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "13S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "14S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
@@ -103,7 +101,6 @@ empates = {
     "18H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "19H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "20H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
-    "21H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "12S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "13S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "14S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
@@ -224,11 +221,12 @@ class Jogador(Dealer):
     def __init__(self):
         super().__init__()
         self.vencedor = str()
-        self.decisao = int()
+        self.decisao = -1
         self.vitorias = 0
         self.derrotas = 0
         self.empates = 0
         self.saldo = 0
+        self.aposta = 1
 
     def mostrar(self):
         print("\033[36m")
@@ -243,10 +241,17 @@ class Jogador(Dealer):
     def resetar(self):
         super().resetar()
         self.vencedor = str()
-        self.decisao = int()
+        self.decisao = -1
+        self.aposta = 1
 
     def soft_hard(self):
         return f"{self.soma}{'S' if self.ases > 0 else 'H'}"
+
+    def dobrar(self):
+        self.aposta *= 2
+        self.pedir()
+        self.decisao = 0
+        self.contar_ases()
 
 
 def ver_dados():
@@ -283,7 +288,7 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, limite: int):
             jogador.vencedor = "Dealer"
             jogador.derrotas += 1
             jogador.busts += 1
-            jogador.saldo -= 1
+            jogador.saldo -= jogador.aposta
             break
 
         if jogador.soma == 21:
@@ -296,31 +301,36 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, limite: int):
                     jogador.empates += 1
                     break
 
-                jogador.saldo += 0.5
+                jogador.saldo += jogador.aposta * 0.5
                 jogador.vencedor = "Jogador"
                 jogador.vitorias += 1
                 break
 
             jogador.vencedor = "Jogador"
             jogador.vitorias += 1
-            jogador.saldo += 1
+            jogador.saldo += jogador.aposta
             break
 
         if dealer.soma == 21:
             if len(dealer.cartas) == 2: dealer.blackjacks += 1
             jogador.vencedor = "Dealer"
             jogador.derrotas += 1
-            jogador.saldo -= 1
+            jogador.saldo -= jogador.aposta
             break
 
-        if jogador.soma >= limite: break
+        if jogador.soma >= limite or jogador.decisao == 0: break
 
-        # Enquanto o jogador não atingir uma pontuação, ele não para de pedir, semelhante ao dealer.
         while jogador.soma < limite:
             pre_total = jogador.soft_hard()
+
+            if jogador.soma == 11 and dealer.cartas[1].valor != 'A':
+                jogador.dobrar()
+                # jogador.mostrar()
+                break
+
             jogador.pedir()
+            jogador.contar_ases()
             # jogador.mostrar()
-            # jogador.contar_ases()
 
     while dealer.soma < 17:
         if jogador.vencedor: break
@@ -331,17 +341,17 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, limite: int):
         if dealer.soma > 21:
             jogador.vencedor = "Jogador"
             jogador.vitorias += 1
-            jogador.saldo += 1
+            jogador.saldo += jogador.aposta
             dealer.busts += 1
 
         elif dealer.soma > jogador.soma:
             jogador.vencedor = "Dealer"
-            jogador.saldo -= 1
+            jogador.saldo -= jogador.aposta
             jogador.derrotas += 1
 
         elif dealer.soma < jogador.soma:
             jogador.vencedor = "Jogador"
-            jogador.saldo += 1
+            jogador.saldo += jogador.aposta
             jogador.vitorias += 1
 
         else:
@@ -376,7 +386,7 @@ def monte_carlo(n, limite):
 dealer = Dealer()
 jogador = Jogador()
 t0 = perf_counter()
-monte_carlo(1000000, 16)
+monte_carlo(10000, 17)
 t = perf_counter()
 
 print("="*120)
@@ -387,6 +397,6 @@ print(f"Saldo: R$ {jogador.saldo:.2f}")
 ver_dados()
 print("Tempo gasto:", t-t0)
 print("="*120)
-wins_df = DataFrame(vitorias).T.to_csv("wins_df.csv", sep=";")
+'''wins_df = DataFrame(vitorias).T.to_csv("wins_df.csv", sep=";")
 losses_df = DataFrame(derrotas).T.to_csv("losses_df.csv", sep=";")
-ties_df = DataFrame(empates).T.to_csv("ties_df.csv", sep=";")
+ties_df = DataFrame(empates).T.to_csv("ties_df.csv", sep=";")'''
