@@ -2,6 +2,12 @@ from random import randrange
 from time import perf_counter
 from pandas import DataFrame
 
+n = 1_000_000
+n_vitorias = 0
+n_derrotas = 0
+n_empates = 0
+cartas = 0
+
 
 class Carta:
     # Esta classe representa uma carta de baralho.
@@ -166,14 +172,17 @@ class Dealer:
         através da função randrange(), essa carta é removida do baralho e depois é contabilizada na soma. Cartas
         númericas tem seu valor nominal, cartas não numéricas valem 10, exceto ás que a princípio vale 11.
         """
+        global cartas
+        cartas += 1
         esc = randrange(len(baralho))
         baralho[esc], baralho[-1] = baralho[-1], baralho[esc]
-        carta = baralho.pop()
+        top = baralho.pop()
 
-        self.cartas.append(carta)
-        self.soma += carta.valor_num
+        self.cartas.append(top)
+        self.soma += top.valor_num
 
-        if carta.valor_num == 11: self.ases += 1
+        if top.valor_num == 11: self.ases += 1
+        self.contar_ases()
 
     def contar_ases(self):
         """
@@ -198,15 +207,9 @@ class Dealer:
         print("Naipe: ??? | Valor: ???")
         print(self.cartas[1])
 
-        if self.cartas[1].valor.isnumeric():
-            print("Total:", self.cartas[1])
-
-        elif self.cartas[1].valor != "A":
-            print("Total: 10")
-
-        else:
-            print("1 / 11")
-
+        if self.cartas[1].valor.isnumeric(): print("Total:", self.cartas[1])
+        elif self.cartas[1].valor != "A": print("Total: 10")
+        else: print("1 / 11")
         print("\n", end='')
 
     def resetar(self):
@@ -221,10 +224,7 @@ class Jogador(Dealer):
     def __init__(self):
         super().__init__()
         self.vencedor = str()
-        self.decisao = -1
-        self.vitorias = 0
-        self.derrotas = 0
-        self.empates = 0
+        self.decisao = 1
         self.saldo = 0
         self.aposta = 1
 
@@ -241,7 +241,7 @@ class Jogador(Dealer):
     def resetar(self):
         super().resetar()
         self.vencedor = str()
-        self.decisao = -1
+        self.decisao = 1
         self.aposta = 1
 
     def soft_hard(self):
@@ -271,22 +271,23 @@ def ver_dados():
 def iniciar(dealer: Dealer, jogador: Jogador):
     # Função que inicia cada rodada. É chamada antes da função jogar().
      for i in range(2):
-        jogador.pedir()
-        dealer.pedir()
+         jogador.pedir()
+         dealer.pedir()
 
-     jogador.contar_ases()
-     dealer.contar_ases()
      # jogador.mostrar()
      # dealer.ver_carta()
 
 
 def jogar(baralho: list, dealer: Dealer, jogador: Jogador, limite: int):
     pre_total = jogador.soft_hard()
+    global n_vitorias
+    global n_derrotas
+    global n_empates
 
     while True:
         if jogador.soma > 21:
             jogador.vencedor = "Dealer"
-            jogador.derrotas += 1
+            n_derrotas += 1
             jogador.busts += 1
             jogador.saldo -= jogador.aposta
             break
@@ -298,78 +299,61 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador, limite: int):
                 if dealer.soma == 21:
                     if len(dealer.cartas) == 2: dealer.blackjacks += 1
                     jogador.vencedor = "Empate"
-                    jogador.empates += 1
+                    n_empates += 1
                     break
 
                 jogador.saldo += jogador.aposta * 0.5
                 jogador.vencedor = "Jogador"
-                jogador.vitorias += 1
+                n_vitorias += 1
                 break
 
-            jogador.vencedor = "Jogador"
-            jogador.vitorias += 1
-            jogador.saldo += jogador.aposta
             break
 
         if dealer.soma == 21:
             if len(dealer.cartas) == 2: dealer.blackjacks += 1
             jogador.vencedor = "Dealer"
-            jogador.derrotas += 1
+            n_derrotas += 1
             jogador.saldo -= jogador.aposta
             break
 
-        if jogador.soma >= limite or jogador.decisao == 0: break
+        if jogador.soma >= limite: break
 
         while jogador.soma < limite:
-            pre_total = jogador.soft_hard()
-
-            if jogador.soma == 11 and dealer.cartas[1].valor != 'A':
-                jogador.dobrar()
-                # jogador.mostrar()
-                break
-
             jogador.pedir()
-            jogador.contar_ases()
             # jogador.mostrar()
 
     while dealer.soma < 17:
         if jogador.vencedor: break
         dealer.pedir()
-        dealer.contar_ases()
 
     if not jogador.vencedor:
         if dealer.soma > 21:
             jogador.vencedor = "Jogador"
-            jogador.vitorias += 1
+            n_vitorias += 1
             jogador.saldo += jogador.aposta
             dealer.busts += 1
 
         elif dealer.soma > jogador.soma:
             jogador.vencedor = "Dealer"
             jogador.saldo -= jogador.aposta
-            jogador.derrotas += 1
+            n_derrotas += 1
 
         elif dealer.soma < jogador.soma:
             jogador.vencedor = "Jogador"
             jogador.saldo += jogador.aposta
-            jogador.vitorias += 1
+            n_vitorias += 1
 
         else:
             jogador.vencedor = "Empate"
-            jogador.empates += 1
+            n_empates += 1
 
     # dealer.mostrar()
     # print("\nVencedor:", jogador.vencedor)
     # print(f"Seu saldo R$ {jogador.saldo:.2f}")
 
-    if jogador.vencedor == "Jogador":
-        vitorias[pre_total][dealer.cartas[1].valor] += 1
-
-    elif jogador.vencedor == "Dealer":
-        derrotas[pre_total][dealer.cartas[1].valor] += 1
-
-    else:
-        empates[pre_total][dealer.cartas[1].valor] += 1
+    if jogador.vencedor == "Jogador": vitorias[pre_total][dealer.cartas[1].valor] += 1
+    elif jogador.vencedor == "Dealer": derrotas[pre_total][dealer.cartas[1].valor] += 1
+    else: empates[pre_total][dealer.cartas[1].valor] += 1
 
     baralho += dealer.cartas
     baralho += jogador.cartas
@@ -386,17 +370,18 @@ def monte_carlo(n, limite):
 dealer = Dealer()
 jogador = Jogador()
 t0 = perf_counter()
-monte_carlo(10000, 17)
+monte_carlo(n, 17)
 t = perf_counter()
 
 print("="*120)
-print(f"Vitórias: {jogador.vitorias}\nDerrotas: {jogador.derrotas}\nEmpates: {jogador.empates}")
+print(f"Vitórias: {n_vitorias}\nDerrotas: {n_derrotas}\nEmpates: {n_empates}")
 print(f"Busts do jogador: {jogador.busts}\nBlackjacks do jogador: {jogador.blackjacks}")
 print(f"Busts do dealer: {dealer.busts}\nBlackjacks do dealer: {dealer.blackjacks}")
 print(f"Saldo: R$ {jogador.saldo:.2f}")
 ver_dados()
 print("Tempo gasto:", t-t0)
+print(f"Número de cartas pedidas: {cartas:,}".replace(",", "_"))
 print("="*120)
-'''wins_df = DataFrame(vitorias).T.to_csv("wins_df.csv", sep=";")
-losses_df = DataFrame(derrotas).T.to_csv("losses_df.csv", sep=";")
-ties_df = DataFrame(empates).T.to_csv("ties_df.csv", sep=";")'''
+# wins_df = DataFrame(vitorias).T.to_csv("wins_df.csv", sep=";")
+# losses_df = DataFrame(derrotas).T.to_csv("losses_df.csv", sep=";")
+# ties_df = DataFrame(empates).T.to_csv("ties_df.csv", sep=";")

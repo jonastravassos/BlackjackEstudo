@@ -13,9 +13,13 @@ A simulação Monte Carlo permite avaliar estratégias de forma prática, aproxi
 O projeto também reforça conceitos de:
 
 1 - Probabilidade e Estatística
+
 2 - Lógica de Programação
+
 3 - Otimização de Algoritmos
+
 4 - Estruturas de Dados
+
 5 - Cálculo Numérico (aproximações por amostragem)
 
 O grande motivo por trás desse projeto é saber se esse jogo (blackjack) pode ser lucrativo ao jogador ou é um jogo feito para perder dinheiro, usando métodos matemáticos e computacionais para fundamentar a resposta.
@@ -23,7 +27,7 @@ O grande motivo por trás desse projeto é saber se esse jogo (blackjack) pode s
 Regras do Blackjack
 No jogo, o jogador joga contra o “dealer”, nome de quem distribui as cartas, normalmente funcionário do cassino também conhecido como “crupiê”, e o objetivo do jogo é chegar o mais próximo de 21 sem ultrapassar. Antes de começar, o jogador faz a sua aposta. 
 
-Em cada rodada, tanto o jogador quanto o dealer têm duas cartas, porém o jogador só pode ver a segunda carta do dealer enquanto o valor da outra permanece oculto. O jogador tem várias ações no jogo, como pedir, pede mais uma carta do baralho, parar, o jogador para de receber carta e em seguida o dealer joga o jogo, dobrar, dobra a aposta, recebe uma carta e para imediatamente, e dividir, divide a mão atual (conjunto de cartas em posse) caso o jogador tenha duas cartas de mesmo valor, tendo duas mãos independentes com o mesmo valor da aposta inicial, no entanto, se o jogador dividir dois ases, geralmente só é distribuída uma carta a cada mão e não é considerado um blackjack caso essa carta forme um 21, ou seja, se tiver 21, ele paga 1:1, não 3:2, embora muitos cassinos proíbem dobrar após dividir ases por ser muito vantajoso ao jogador mesmo que ele receba apenas uma carta em cada mão. 
+Em cada rodada, tanto o jogador quanto o dealer têm duas cartas, porém o jogador só pode ver a segunda carta do dealer enquanto o valor da outra permanece oculto. O jogador tem várias ações no jogo, como pedir, pede mais uma carta do baralho, parar, o jogador para de receber carta e em seguida o dealer joga o jogo, dobrar, dobra a aposta, recebe uma carta e para imediatamente, podendo ganhar o dobro se ganhar ou perder o dobro se perder (o dobro ou nada), e dividir, divide a mão atual (conjunto de cartas em posse) caso o jogador tenha duas cartas de mesmo valor, tendo duas mãos independentes com o mesmo valor da aposta inicial, no entanto, se o jogador dividir dois ases, geralmente só é distribuída uma carta a cada mão e não é considerado um blackjack caso essa carta forme um 21, ou seja, se tiver 21, ele paga 1:1, não 3:2, embora muitos cassinos proíbem dobrar após dividir ases por ser muito vantajoso ao jogador mesmo que ele receba apenas uma carta em cada mão. 
 
 Cada carta tem seu valor, cartas numéricas têm seu valor naquele número, ou seja, se a carta tem 5 como valor, é esse 5 que vai contar na soma das cartas, e cartas não numéricas valem 10, exceto o ás, que tem o valor inicial igual a 11 se o valor das cartas for menor ou igual 21 e igual a 1 caso contrário, sendo considerado a melhor carta por ter seu valor adaptado. O naipe da carta não interfere na contagem. 
 
@@ -46,9 +50,12 @@ Pedir até L - O jogador pede cartas até atingir um limite. Por exemplo, se ess
 Nas últimas atualizações do código, com o intuito de minimizar a perda do jogador, foi feito uma seguinte otimização nas estratégias: dobrar a aposta em determinadas condições. Foi notado que a estratégia que otimiza o lucro do jogador é a de pedir até 17 e que dobrar a aposta quando a pontuação for 11 e a carta do dealer não for um ás, por exemplo, a chance de ganhar é maior que 50%. Conclui-se, então, que se o jogador tiver 11 pontos, é aconselhável que ele dobre a aposta a menos que a carta visiível seja um ás, porque nesse caso a probabilidade de ganhar é menor que 50%.
 
 Resultados
-1 - A melhor estratégia de todas dá um prejuízo de aproximadamente R$ 100.000,00 ao jogador ao longo de 1 milhão de rodadas.
+1 - A melhor estratégia que testada dá um prejuízo de aproximadamente R$ 100.000,00 ao jogador ao longo de 1 milhão de rodadas.
+
 2 - Dobrar em condições específicas reduz a perda em cerca de R$ 20.000,00 ou mais ao jogador.
+
 3 - Dependendo da carta do dealer, ter 8 a 10 pontos pedindo até 17 aumentam drasticamente as chances de ganhar.
+
 4 - Por enquanto, não há uma otimização que faça o jogador ter lucro postivo no longo prazo, mas isso é um outro objeto de estudo.
 
 Conclusão

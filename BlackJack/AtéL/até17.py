@@ -6,8 +6,6 @@ n = 1_000_000
 n_vitorias = 0
 n_derrotas = 0
 n_empates = 0
-cartas = 0
-
 '''import matplotlib.pyplot as plt
 
 x = [i for i in range(1, n+1)]
@@ -34,6 +32,36 @@ class Carta:
 
 
 # Registra a carta do dealer nas vitórias, derrotas e empates.
+melhor_decisao = {
+    "4H": {'A': 0, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "5H": {'A': 1, '2': 1, '3': 1, '4': 1, '5': 0, '6': 0, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "6H": {'A': 1, '2': 1, '3': 1, '4': 0, '5': 0, '6': 0, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "7H": {'A': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "8H": {'A': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "9H": {'A': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "10H": {'A': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "11H": {'A': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "12H": {'A': 1, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "13H": {'A': 1, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "14H": {'A': 1, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "15H": {'A': 1, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "16H": {'A': 1, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "17H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "18H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "19H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "20H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "12S": {'A': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "13S": {'A': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "14S": {'A': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "15S": {'A': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "16S": {'A': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1, '9': 1, '10': 1, 'J': 1, 'Q': 1, 'K': 1},
+    "17S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "18S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "19S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "20S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
+    "21S": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0}
+}
+
 vitorias = {
     "4H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
     "5H": {'A': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, 'J': 0, 'Q': 0, 'K': 0},
@@ -177,8 +205,6 @@ class Dealer:
         através da função randrange(), essa carta é removida do baralho e depois é contabilizada na soma. Cartas
         númericas tem seu valor nominal, cartas não numéricas valem 10, exceto ás que a princípio vale 11.
         """
-        global cartas
-        cartas += 1
         esc = randrange(len(baralho))
         baralho[esc], baralho[-1] = baralho[-1], baralho[esc]
         top = baralho.pop()
@@ -276,8 +302,8 @@ def ver_dados():
 def iniciar(dealer: Dealer, jogador: Jogador):
     # Função que inicia cada rodada. É chamada antes da função jogar().
     for i in range(2):
-        dealer.pedir()
         jogador.pedir()
+        dealer.pedir()
 
     # jogador.mostrar()
     # dealer.ver_carta()
@@ -287,30 +313,47 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador):
     global n_vitorias
     global n_derrotas
     global n_empates
-    pre_total = jogador.soft_hard()
+    pontos = jogador.soft_hard()
+    pre_total = pontos
 
     while True:
-        if jogador.soma == 21:
-            jogador.blackjacks += 1
+        if jogador.soma > 21:
+            jogador.vencedor = "Dealer"
+            n_derrotas += 1
+            jogador.busts += 1
+            jogador.saldo -= jogador.aposta
+            break
 
-            if dealer.soma == 21:
-                if len(dealer.cartas) == 2: dealer.blackjacks += 1
-                jogador.vencedor = "Empate"
-                n_empates += 1
+        if jogador.soma == 21:
+            if len(jogador.cartas) == 2:
+                jogador.blackjacks += 1
+
+                if dealer.soma == 21:
+                    if len(dealer.cartas) == 2: dealer.blackjacks += 1
+                    jogador.vencedor = "Empate"
+                    n_empates += 1
+                    break
+
+                jogador.saldo += jogador.aposta * 0.5
+                jogador.vencedor = "Jogador"
+                n_vitorias += 1
                 break
 
-            jogador.saldo += jogador.aposta * 0.5
-            jogador.vencedor = "Jogador"
-            n_vitorias += 1
             break
 
         if dealer.soma == 21:
             if len(dealer.cartas) == 2: dealer.blackjacks += 1
             jogador.vencedor = "Dealer"
+            jogador.saldo -= jogador.aposta
             n_derrotas += 1
             break
 
-        break
+        if melhor_decisao[pre_total][dealer.cartas[0].valor] == 0 or jogador.soma > 16: break
+        while jogador.soma < 17:
+            pre_total = jogador.soft_hard()
+            if melhor_decisao[pre_total][dealer.cartas[0].valor] == 1: jogador.pedir()
+            else: break
+            # jogador.mostrar()
 
     while dealer.soma < 17:
         if jogador.vencedor: break
@@ -342,9 +385,9 @@ def jogar(baralho: list, dealer: Dealer, jogador: Jogador):
     # print(f"Seu saldo R$ {jogador.saldo:.2f}")
 
     # y.append(jogador.saldo)
-    if jogador.vencedor == "Jogador": vitorias[pre_total][dealer.cartas[0].valor] += 1
-    elif jogador.vencedor == "Dealer": derrotas[pre_total][dealer.cartas[0].valor] += 1
-    else: empates[pre_total][dealer.cartas[0].valor] += 1
+    if jogador.vencedor == "Jogador": vitorias[pontos][dealer.cartas[0].valor] += 1
+    elif jogador.vencedor == "Dealer": derrotas[pontos][dealer.cartas[0].valor] += 1
+    else: empates[pontos][dealer.cartas[0].valor] += 1
 
     baralho += dealer.cartas
     baralho += jogador.cartas
@@ -377,9 +420,7 @@ print(f"Busts do dealer: {dealer.busts}\nBlackjacks do dealer: {dealer.blackjack
 print(f"Saldo: R$ {jogador.saldo:.2f}")
 ver_dados()
 print("Tempo gasto:", t-t0)
-print(f"Número de cartas {cartas:,}".replace(",", "_"))
 print("="*120)
 '''wins_df = DataFrame(vitorias).T.to_csv("wins_df.csv", sep=";")
 losses_df = DataFrame(derrotas).T.to_csv("losses_df.csv", sep=";")
-ties_df = DataFrame(empates).T.to_csv("ties_df.csv", sep=";")
-'''
+ties_df = DataFrame(empates).T.to_csv("ties_df.csv", sep=";")'''
