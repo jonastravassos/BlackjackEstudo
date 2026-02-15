@@ -1,0 +1,5 @@
+Os arquivos desta pasta são relacionadas à última etapa da pesquisa do jogo Blackjack, que envolve um precisão absoluta com o uso do Cython e do NumPy, mencionado no readme deste projeto.
+
+O arquivo "blackjack_mc.py" refere-se ao arquivo Python que contém o código principal que roda as funções relacionadas ao jogo e ao Método Monte Carlo.
+
+O arquivo "blackjack_mc.pyx" refere-se ao arquivo PYX (Cython) que contém as funções que fazem tanto o jogo quanto a pesquisa funcionarem, ele é utilizado como módulo no código principal.

@@ -76,12 +76,19 @@ Ainda implemento o loop da rejeição para garantir que todos os inteiros gerado
 As estratégias usadas foram as seguintes:
 Parar em duas cartas - O jogador para em duas cartas, o programa registra a pontuação e a carta do dealer numa matriz e depois faz a contabilidade de vitórias, de derrotas e de empates. Por exemplo, se o jogador tiver 20H e a carta visível for 2, a probabilidade de o jogador ganhar é cerca de 75%. No entanto, se tiver 20H e a carta for um ás, a probabilidade de ganhar é cerca de 50%, o que mostra que o ás é a melhor carta desse jogo.
 
-Pedir até 17 - O jogador pede cartas até atingir um limite. Por exemplo, se esse limite for 17, o jogador pede cartas até atingir pelo menos 17 pontos. A pontuação registrada é a soma das duas cartas iniciais.
+Pedir até 17 - O jogador pede cartas até atingir um limite. Por exemplo, se esse limite for 17, o jogador pede cartas até atingir pelo menos 17 pontos. A pontuação registrada é a soma dos valores das duas cartas iniciais.
 
 Resultados
 
-Com todos os problemas reesolvidos e com todas as regras implementadas corretamente, os resultados podem ser visualizados nas tabelas / matrizes gerados(as) no Excel. Cada linha da matriz é uma pontuação do jogador e cada coluna é a carta virada do dealer. Note que são 10 colunas em vez de 13 porque, apesar de haver 13 cartas diferentes, no blackjack 4 cartas valem 10, permitindo uma redução no número de colunas.
+Com todos os problemas resolvidos e com todas as regras implementadas corretamente, os resultados podem ser visualizados nas tabelas / matrizes gerados(as) no Excel. Cada linha da matriz é uma pontuação do jogador e cada coluna é a carta virada do dealer. Note que são 10 colunas em vez de 13 porque, apesar de haver 13 cartas diferentes, no blackjack 4 cartas valem 10, permitindo uma redução no número de colunas.
 Duas simulações diferentes são executadas: uma em que a pontuação do jogador é fixada (270 milhões de rodadas) e outra que não é (100 milhões de rodadas).
+
+1 - Parar sempre é a pior estratégia, dando um prejuízo médio de R$ 0,205226345 por rodada;
+2 - Pedir até 17 é consideravelmente melhor que parar, dando um prejuízo médio de R$ 0,102059635 por rodada;
+3 - Pedir até 17, mas parando em certas cartas do dealer é melhor ainda, o prejuízo médio é R$ 0,08042182 por rodada;
+4 - Pedir até 17, parando ou dobrando em situações específicas consegue superar com o prejuízo médio de R$ 0,05853610 por rodada;
+
+Note que o jogador sempre está no prejuízo, independentemente da estratégia utilizada, e que a matriz que diz qual é a melhor ação para cada pontuação e carta do dealer pode ser encontrada nos arquivos .xlsx, embora a divisão de cartas não foi implementada até esse momento (quando for, esta mesnagem será apaga).
 
 Conclusão
 
